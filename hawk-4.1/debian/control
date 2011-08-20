@@ -9,8 +9,8 @@ Homepage: http://www.clusterlabs.org/wiki/Hawk
 #Vcs-Browser: http://git.debian.org/?p=collab-maint/hawk.git;a=summary
 
 Package: hawk
-Architecture: amd64
-Depends: ${shlibs:Depends}, ${misc:Depends}, ruby, rubygems, libopenssl-ruby, pacemaker, lighttpd
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, ruby1.8, rubygems1.8, libopenssl-ruby1.8, pacemaker (>= 1.0.8+hg15494), lighttpd | httpd-cgi
 Description: Hawk (HA Web Konsole) is a web-based GUI for Pacemaker HA clusters. 
  Hawk (HA Web Konsole) is a web-based GUI for Pacemaker HA clusters. 
  So, why another management tool, given that we already have the crm
