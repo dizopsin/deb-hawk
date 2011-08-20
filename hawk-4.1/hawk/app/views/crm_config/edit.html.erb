@@ -1,0 +1,69 @@
+<% content_for :head do %>
+<%= stylesheet_link_tag 'ui.attrlist.css' %>
+<%= javascript_include_tag 'jquery.ui.attrlist.js' %>
+<style type="text/css">
+/* TODO(should): this does not belong here (also need to remove
+   inline style from various elements) */
+th { font-weight: bold; }
+</style>
+<% end %>
+<script type="text/javascript">
+var anything_changed = false;
+$(function() {
+  $.getJSON('<%= crm_config_info_path %>', function(data) {
+    $("#crm_config").attrlist({
+      all_attrs: data,
+      set_attrs: <%= Hash[@crm_config.props.select{|n,v|
+          # Don't include unknown, readonly or advanced properties
+          @crm_config.all_types[n] && !@crm_config.all_types[n][:readonly] && !@crm_config.all_types[n][:advanced]
+        }].to_json %>,
+      prefix: "props",
+      labels: {
+        add: "<%= escape_javascript _('Add') %>",
+        remove: "<%= escape_javascript _('Remove') %>",
+        no_value: "<%= escape_javascript _('You must enter a value') %>",
+        heading_add: "<%= escape_javascript _('Add new property:') %>",
+        heading_edit: "<%= escape_javascript _('Edit current properties:') %>"
+      },
+      dirty: function() {
+        $("#flash-highlight").fadeOut('fast');    // Hide "saved changes" message
+        $("#crm_config_submit").removeAttr("disabled");
+        $("#crm_config_revert").removeAttr("disabled");
+        anything_changed = true;
+      }
+    });
+    $("#onload-spinner").hide();
+    $("#editor").show();
+  });
+<%= render :partial => 'shared/confirm_revert', :locals => { :button_ids => '#crm_config_revert,#crm_config_cancel' } %>
+});
+</script>
+<div id="onload-spinner"><%= image_tag 'spinner-32x32.gif', :alt => '' %></div>
+<div id="editor" style="display: none;">
+<% form_for([ @cib, @crm_config ]) do |f| %>
+<% flash.each do |flash_type, message| %>
+  <div id="flash-<%= flash_type %>" class="ui-state-<%= flash_type %> ui-corner-all" style="padding: 0.5em; margin-bottom: 0.5em;"><%=h message %></div>
+<% end %>
+  <table>
+    <tr>
+      <td>
+        <div id="crm_config"></div>
+      </td>
+      <td rowspan="3" style="padding: 1em; vertical-align: top;">
+        <div id="help" class="ui-state-highlight ui-corner-all" style="padding: 0.5em; display: none;">
+          <div id="help-name" style="padding-bottom: 0.5em;"></div>
+          <div id="help-shortdesc" style="padding-bottom: 0.5em;"></div>
+          <div id="help-longdesc"></div>
+        </div>
+      </td>
+    </tr>
+    <tr>
+      <td style="text-align: right">
+        <%= f.submit _('Apply Changes'), { :disabled => true } %>
+        <%= f.submit _('Revert Changes'), { :id => 'crm_config_revert', :name => 'revert', :disabled => true } %>
+        <%= f.submit _('Back'), { :id => 'crm_config_cancel', :name => 'cancel' } %>
+      </td>
+    </tr>
+  </table>
+<% end %>
+</div>

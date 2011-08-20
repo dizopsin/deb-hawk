@@ -1,0 +1,136 @@
+var GETTEXT = {
+  // Dialog buttons, status indicators
+  ok: function() {
+    return "<%= escape_javascript _('OK') %>";
+  },
+  cancel: function() {
+    return "<%= escape_javascript _('Cancel') %>";
+  },
+  yes: function() {
+    return "<%= escape_javascript _('Yes') %>";
+  },
+  no: function() {
+    return "<%= escape_javascript _('No') %>";
+  },
+  // Tooltips
+  configure: function() {
+    return "<%= escape_javascript _('Configure...') %>";
+  },
+  // Node ops
+  node_online: function(node) {
+    return "<%= escape_javascript _('This will bring node %s online if it is currently on standby.  Do you want to continue?') % '_NODE_' %>".replace('_NODE_', node);
+  },
+  node_standby: function(node) {
+    return "<%= escape_javascript _('This will put node %s on standby.  All resources will be stopped and/or moved to another node.  Do you want to continue?') % '_NODE_' %>".replace('_NODE_', node);
+  },
+  node_fence: function(node) {
+    return "<%= escape_javascript _('This will attempt to immediately fence node %s.  Do you want to continue?') % '_NODE_' %>".replace('_NODE_', node);
+  },
+  // Resource ops
+  resource_start: function(res) {
+    return "<%= escape_javascript _('This will start the resource %s.  Do you want to continue?') % '_RES_' %>".replace('_RES_', res);
+  },
+  resource_stop: function(res) {
+    return "<%= escape_javascript _('This will stop the resource %s.  Do you want to continue?') % '_RES_' %>".replace('_RES_', res);
+  },
+  resource_migrate: function(res) {
+    return "<%= escape_javascript _('Move resource %s') % '_RES_' %>".replace('_RES_', res);
+  },
+  resource_migrate_to: function(node) {
+    return "<%= escape_javascript _('To node %s') % '_NODE_' %>".replace('_NODE_', node);
+  },
+  resource_migrate_away: function() {
+    return "<%= escape_javascript _('Away from current node') %>";
+  },
+  resource_unmigrate: function(res) {
+    return "<%= escape_javascript _('This will clear any relocation constraints set on the resource %s.  Do you want to continue?') % '_RES_' %>".replace('_RES_', res);
+  },
+  resource_promote: function(res) {
+    return "<%= escape_javascript _('This will promote the resource %s.  Do you want to continue?') % '_RES_' %>".replace('_RES_', res);
+  },
+  resource_demote: function(res) {
+    return "<%= escape_javascript _('This will demote the resource %s.  Do you want to continue?') % '_RES_' %>".replace('_RES_', res);
+  },
+  resource_cleanup: function(res) {
+    return "<%= escape_javascript _('This will clean up the resource %s.  Do you want to continue?') % '_RES_' %>".replace('_RES_', res);
+  },
+  // Errors
+  error: function() {
+    return "<%= escape_javascript _('Error') %>";
+  },
+  err_unexpected: function(msg) {
+    return "<%= escape_javascript _('Unexpected server error: %s') % '_MSG_' %>".replace('_MSG_', msg);
+  },
+  err_denied: function() {
+    return "<%= escape_javascript _('Permission denied') %>";
+  },
+  // DC Info
+  dc_current: function(dc) {
+    return "<%= escape_javascript _('DC: %s') % '_DC_' %>".replace('_DC_', dc);
+  },
+  dc_version: function(version) {
+    return "<%= escape_javascript _('Version: %s') % '_VERSION_' %>".replace('_VERSION_', version);
+  },
+  dc_stack: function(stack) {
+    return "<%= escape_javascript _('Stack: %s') % '_STACK_' %>".replace('_STACK_', stack);
+  },
+  // Cluster summary labels
+  summary_label: function() {
+    return "<%= escape_javascript _('Cluster Configuration') %>";
+  },
+  // Node & resource labels
+  nodes_configured: function(num) {
+    var s = <%= [1,'_NUM_'].map {|n| n_('1 node configured', '%{num} nodes configured', n) % { :num => n } }.to_json %>;
+    return num == 1 ? s[0] : s[1].replace('_NUM_', num);
+  },
+  node_state: function(node, state) {
+    return "<%= escape_javascript _('%{node}: %{state}') % { :node => '_NODE_', :state => '_STATE_' } %>".replace('_NODE_', node).replace('_STATE_', state);
+  },
+  node_state_online: function() {
+    return "<%= escape_javascript _('Online') %>";
+  },
+  node_state_offline: function() {
+    return "<%= escape_javascript _('Offline') %>";
+  },
+  node_state_pending: function() {
+    return "<%= escape_javascript _('Pending') %>";
+  },
+  node_state_standby: function() {
+    return "<%= escape_javascript _('Standby') %>";
+  },
+  node_state_unclean: function() {
+    return "<%= escape_javascript _('Unclean') %>";
+  },
+  node_state_unknown: function() {
+    return "<%= escape_javascript _('Unknown') %>";
+  },
+  resources_configured: function(num) {
+    var s = <%= [1,'_NUM_'].map {|n| n_('1 resource configured', '%{num} resources configured', n) % { :num => n } }.to_json %>;
+    return num == 1 ? s[0] : s[1].replace('_NUM_', num);
+  },
+  resource_state_master: function(res, nodes) {
+    return "<%= escape_javascript _('%{id}: Master: %{nodelist}') % { :id => '_RES_', :nodelist => '_NODELIST_' } %>".replace('_RES_', res).replace('_NODELIST_', nodes.join(", "));
+  },
+  resource_state_slave: function(res, nodes) {
+    return "<%= escape_javascript _('%{id}: Slave: %{nodelist}') % { :id => '_RES_', :nodelist => '_NODELIST_' } %>".replace('_RES_', res).replace('_NODELIST_', nodes.join(", "));
+  },
+  resource_state_started: function(res, nodes) {
+    return "<%= escape_javascript _('%{id}: Started: %{nodelist}') % { :id => '_RES_', :nodelist => '_NODELIST_' } %>".replace('_RES_', res).replace('_NODELIST_', nodes.join(", "));
+  },
+  resource_state_pending: function(res, nodes) {
+    return "<%= escape_javascript _('%{id}: Pending: %{nodelist}') % { :id => '_RES_', :nodelist => '_NODELIST_' } %>".replace('_RES_', res).replace('_NODELIST_', nodes.join(", "));
+  },
+  resource_state_stopped: function(res) {
+    return "<%= escape_javascript _('%{id}: Stopped') % { :id => '_RES_' } %>".replace('_RES_', res);
+  },
+  resource_group: function(res) {
+    return "<%= escape_javascript _('Group: %{id}') % { :id => '_RES_' } %>".replace('_RES_', res);
+  },
+  resource_master: function(res) {
+    return "<%= escape_javascript _('Master/Slave Set: %{id}') % { :id => '_RES_' } %>".replace('_RES_', res);
+  },
+  resource_clone: function(res) {
+    return "<%= escape_javascript _('Clone Set: %{id}') % { :id => '_RES_' } %>".replace('_RES_', res);
+  }
+};
+

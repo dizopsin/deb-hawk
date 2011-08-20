@@ -1,0 +1,13 @@
+hawk for Debian
+---------------
+
+This is a (very) unofficial packaging of Clusterlabs HAWK. I created this package because
+I needed it. Basically, it comes with this guarantee:
+
+<http://www.codinghorror.com/blog/2007/03/the-works-on-my-machine-certification-program.html>
+
+That said, I am willing to become more serious about getting this software into Debian, so
+feedback to improve this package so that it may eventually meet Debian quality requirements
+is very welcome.
+
+ -- Joerg Sauer <debian@dizopsin.net>  Thu, 18 Aug 2011 11:53:27 +0200

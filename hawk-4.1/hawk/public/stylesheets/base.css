@@ -1,0 +1,332 @@
+/*
+======================================================================
+                        HA Web Konsole (Hawk)
+ --------------------------------------------------------------------
+            A web-based GUI for managing and monitoring the
+          Pacemaker High-Availability cluster resource manager
+
+ Copyright (c) 2009-2011 Novell Inc., Tim Serong <tserong@novell.com>
+                        All Rights Reserved.
+
+ This program is free software; you can redistribute it and/or modify
+ it under the terms of version 2 of the GNU General Public License as
+ published by the Free Software Foundation.
+
+ This program is distributed in the hope that it would be useful, but
+ WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+
+ Further, this software is distributed without any warranty that it is
+ free of the rightful claim of any third person regarding infringement
+ or the like.  Any license provided herein, whether implied or
+ otherwise, applies only to this software file.  Patent licenses, if
+ any, provided herein do not apply to combinations of this program with
+ other software, or any other product whatsoever.
+
+ You should have received a copy of the GNU General Public License
+ along with this program; if not, write the Free Software Foundation,
+ Inc., 59 Temple Place - Suite 330, Boston MA 02111-1307, USA.
+
+======================================================================
+
+Layout based on http://www.xs4all.nl/~peterned/examples/css/layout1.css
+*/
+
+html, body
+{
+  font-family: sans-serif;
+  font-size: 10pt; /* TOTHEME? */
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}
+
+#container
+{
+  position: relative;
+  width: 100%;
+  height: auto !important;
+  height: 100%;
+  min-height: 100%;
+  min-width: 30em;
+}
+
+#header
+{
+  border-top: none !important;
+  border-left: none !important;
+  border-right: none !important;
+  width: 100%;
+  left: 0px;
+  top: 0px;
+  height: 36px;
+  background-color: #ccc; /* TOTHEME */
+}
+
+#header-links
+{
+  float: right;
+  line-height: 36px;
+  padding-right: 1em;
+  font-size: 80%;
+  font-weight: normal;
+}
+
+#header-links a
+{
+  color: #000; /* TOTHEME */
+}
+
+#content
+{
+  padding: 1em 1em 3em; /* for footer */
+}
+
+#errorbar
+{
+  background-color: #c66; /* TOTHEME */
+}
+
+.error
+{
+  color: #000; /* TOTHEME */
+  border-bottom: 1px solid #933; /* TOTHEME */
+  padding: 0.2em 1em;
+}
+
+#content p
+{
+  margin-top: 0;
+}
+
+#footer
+{
+  font-size: 8pt;
+  position: absolute;
+  border-bottom: none !important;
+  border-left: none !important;
+  border-right: none !important;
+  bottom: 0px;
+  left: 0px;
+  width: 100%;
+  height: 2em;
+  background-color: #ccc; /* TOTHEME */
+  font-weight: normal !important;
+}
+
+#hostinfo
+{
+  line-height: 2em;
+  padding-right: 1em;
+  float: right;
+}
+
+#copyright
+{
+  line-height: 2em;
+  padding-left: 1em;
+}
+
+#summary
+{
+  float: right;
+}
+
+th /* used in summary, crm_property editor */
+{
+  font-weight: normal;
+  text-align: left;
+}
+
+#summary th, #summary td
+{
+  white-space: nowrap;
+}
+
+#summary th
+{
+  padding-right: 0.5em;
+}
+
+code
+{
+  white-space: pre;
+}
+
+#logo
+{
+  float: left;
+  padding-left: 6px;
+  margin: 2px;
+}
+
+h1
+{
+  font-size: 12pt;
+  font-weight: bold;
+  margin: 0;
+  padding: 0;
+}
+
+h1#header-title
+{
+  line-height: 36px;
+  padding-left: 3em;
+}
+
+h2
+{
+  font-size: 10pt;
+  font-weight: bold;
+}
+
+/* TOTHEME: audit below */
+
+#nodelist
+{
+  width: 25em;
+}
+
+#reslist
+{
+  width: 25em;
+}
+
+#summary
+{
+  width: 25em;
+}
+
+.node
+{
+  border: 1px solid #000;
+  padding: 0.25em 0.5em;
+  margin: 0.5em;
+}
+
+.ns-active
+{
+  background-color: #6c6;
+}
+
+.ns-inactive
+{
+  background-color: #ccc;
+}
+
+.ns-error
+{
+  background-color: #c66;
+}
+
+.ns-transient
+{
+  background-color: #fc6;
+}
+
+.res-primitive
+{
+  border: 1px solid #000;
+  padding: 0.25em 0.5em;
+  margin: 0.5em;
+}
+
+.res-clone
+{
+  border: 1px solid #000;
+  padding: 0.25em 0.5em;
+  margin: 0.5em;
+}
+
+.res-group
+{
+  border: 1px solid #000;
+  padding: 0.25em 0.5em;
+  margin: 0.5em;
+}
+
+.rs-active
+{
+  background-color: #6c6;
+}
+
+.rs-inactive
+{
+  background-color: #ccc;
+}
+
+.rs-error
+{
+  background-color: #c66;
+}
+
+.rs-master
+{
+  background-color: #8e8 !important;
+}
+
+.rs-slave
+{
+  background-color: #4a4 !important;
+}
+
+.rs-transient
+{
+  background-color: #fc6;
+}
+
+.clickable
+{
+  cursor: pointer;
+}
+
+.action-icon
+{
+  float: right;
+}
+
+img
+{
+  border: none;
+}
+
+.flash-warning
+{
+  margin: 0 auto;
+  padding: 0.5em;
+  width: 20em;
+  background-color: #ffc;
+  border: 1px solid #cc9;
+  text-align: center;
+}
+
+#login-form
+{
+  margin: 1em auto;
+  width: 20em;
+}
+
+.loginfield
+{
+  width: 12em;
+}
+
+#dialog-body
+{
+  margin-top: 0.5em;
+  height: 4em;
+}
+
+#dialog-body.message
+{
+  overflow: auto;
+  background-color: #eee;
+  border: 1px solid #ccc;
+}
+
+#onload-spinner
+{
+  text-align: center;
+  padding-top: 5em;
+}
+

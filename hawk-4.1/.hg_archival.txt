@@ -1,0 +1,4 @@
+repo: 53225c8fc9056b3c31743a53a67c6a0e19c4dfd2
+node: 106ca5e10bcd8afc134275e5c847659180fd0a15
+branch: default
+tag: hawk-0.4.1

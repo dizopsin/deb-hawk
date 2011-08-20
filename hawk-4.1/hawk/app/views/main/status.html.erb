@@ -1,0 +1,18 @@
+<% content_for :head do %>
+<%= stylesheet_link_tag 'ui.popupmenu.css' %>
+<%= stylesheet_link_tag 'ui.panel.css' %>
+<%= javascript_include_tag 'jquery.ui.popupmenu.js' %>
+<%= javascript_include_tag 'jquery.ui.panel.js' %>
+<%= javascript_include_tag 'jquery.ui.panel.js' %>
+<%= javascript_include_tag 'status.js' %>
+<script type="text/javascript" src="<%= url_for(:action => 'gettext', :format => 'js') %>"></script>
+<% end %>
+
+<div id="onload-spinner"><%= image_tag 'spinner-32x32.gif', :alt => '' %></div>
+
+<%= render :partial => 'menus' %>
+
+<script type="text/javascript"><!--
+$(function() { hawk_init() });
+//--></script>
+
