@@ -2,25 +2,28 @@ Source: hawk
 Section: admin
 Priority: extra
 Maintainer: Joerg Sauer <debian@dizopsin.net>
-Build-Depends: debhelper (>= 7.0.50~), ruby, rubygems, rake, libpam-dev, libglib2.0-dev, libxml2-dev, libltdl-dev, pacemaker-dev
-Standards-Version: 3.8.4
+Build-Depends: debhelper (>= 7.0.50~), ruby1.8, rails-ruby1.8, librack-ruby1.8, liblocale-ruby1.8, liblocale-rails-ruby1.8, libgettext-ruby1.8, libgettext-rails-ruby1.8, libpam-dev, libglib2.0-dev, libxml2-dev, libltdl-dev, pacemaker-dev
+Standards-Version: 3.9.1
 Homepage: http://www.clusterlabs.org/wiki/Hawk
 #Vcs-Git: git://git.debian.org/collab-maint/hawk.git
 #Vcs-Browser: http://git.debian.org/?p=collab-maint/hawk.git;a=summary
 
 Package: hawk
 Architecture: any
-Depends: ${shlibs:Depends}, ${misc:Depends}, ruby1.8, rubygems1.8, libopenssl-ruby1.8, pacemaker (>= 1.0.8+hg15494), lighttpd | httpd-cgi
-Description: Hawk (HA Web Konsole) is a web-based GUI for Pacemaker HA clusters. 
- Hawk (HA Web Konsole) is a web-based GUI for Pacemaker HA clusters. 
- So, why another management tool, given that we already have the crm
- shell, the Python GUI, and DRBD MC?  We have the usual rationale for a GUI over
- (or in addition to) a CLI tool; it is (or should be)  easier to use, for a wider
- audience. The Python GUI is not always easily installable/runnable (think: sysadmins
- with Windows desktops and/or people who don't want to, or can't, forward X).
- There are a number of cases where site policy prohibits ssh access to servers
- (which is what DRBD MC uses internally).
- There are also some differing goals; Hawk is not intended to expose absolutely
- everything. There will be point somewhere where you have to say "and now you must
- learn to use a shell". Likewise, Hawk is not intended to install the base cluster
+Depends: ${shlibs:Depends}, ${misc:Depends}, ruby1.8, rails-ruby1.8, librack-ruby1.8, liblocale-ruby1.8, liblocale-rails-ruby1.8, libgettext-ruby1.8, libgettext-rails-ruby1.8, libopenssl-ruby1.8, pacemaker (>= 1.0.8+hg15494), lighttpd | httpd-cgi
+Description: HA Web Konsole (Hawk) is a web-based GUI for Pacemaker HA clusters. 
+ Hawk (HA Web Konsole) is a web-based GUI for Pacemaker
+ HA clusters. So, why another management tool, given that
+ we already have the crm  shell, the Python GUI, and DRBD MC?
+ We have the usual rationale for a GUI over (or in addition to)
+ a CLI tool; it is (or should be)  easier to use, for a wider
+ audience. The Python GUI is not always easily
+ installable/runnable (think: sysadmins with Windows desktops
+ and/or people who don't want to, or can't, forward X).
+ There are a number of cases where site policy prohibits ssh
+ access to servers (which is what DRBD MC uses internally).
+ There are also some differing goals; Hawk is not intended to
+ expose absolutely everything. There will be point somewhere
+ where you have to say "and now you must learn to use a shell".
+ Likewise, Hawk is not intended to install the base cluster
  stack for you (whereas DRBD MC does a good job of this). 

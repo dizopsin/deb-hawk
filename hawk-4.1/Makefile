@@ -62,7 +62,7 @@ BINDIR = /usr/bin
 SBINDIR = /usr/sbin
 
 all: scripts/hawk.$(INIT_STYLE) hawk/config/lighttpd.conf tools/hawk_chkpwd tools/hawk_monitor tools/hawk_invoke
-	(cd hawk; rake makemo; rake freeze:rails; rake freeze:gems)
+	(cd hawk; rake makemo)
 
 %:: %.in
 	sed \
@@ -100,8 +100,9 @@ clean:
 	rm -f tools/common.h
 
 install:
-	mkdir -p $(DESTDIR)$(WWW_BASE)/hawk/log
+	mkdir -p $(DESTDIR)/var/log/hawk
 	mkdir -p $(DESTDIR)$(WWW_BASE)/hawk/tmp
+	mkdir -p $(DESTDIR)$(WWW_BASE)/hawk/log
 	mkdir -p $(DESTDIR)$(WWW_BASE)/hawk/locale
 	mkdir -p $(DESTDIR)$(WWW_BASE)/hawk/tmp
 	mkdir -p $(DESTDIR)$(WWW_BASE)/hawk/tmp/cache
@@ -111,14 +112,20 @@ install:
 	mkdir -p $(DESTDIR)$(WWW_BASE)/hawk/tmp/home
 	# Get rid of cruft from packed gems
 	-find hawk/vendor -name '*bak' -o -name '*~' -o -name '#*#' | xargs rm
+	install -D -m 0644 hawk/config/lighttpd.conf $(DESTDIR)/etc/hawk.conf
 	cp -a hawk/* $(DESTDIR)$(WWW_BASE)/hawk
-	rm $(DESTDIR)$(WWW_BASE)/hawk/config/lighttpd.conf.in
-	-chown -R hacluster.haclient $(DESTDIR)$(WWW_BASE)/hawk
-	-chmod g+w $(DESTDIR)$(WWW_BASE)/hawk/tmp/home
-	install -D -m 0755 scripts/hawk.$(INIT_STYLE) $(DESTDIR)/etc/init.d/hawk
-	install -D -m 4750 tools/hawk_chkpwd $(DESTDIR)/usr/sbin/hawk_chkpwd
+	rm $(DESTDIR)$(WWW_BASE)/hawk/config/lighttpd.conf*
+	-chown -R root.root $(DESTDIR)$(WWW_BASE)/hawk
+	-chown -R root.haclient $(DESTDIR)/var/log/hawk
+	-chmod 2775 $(DESTDIR)/var/log/hawk
+	-chown -R root.haclient $(DESTDIR)$(WWW_BASE)/hawk/log
+	-chmod -R 2775 $(DESTDIR)$(WWW_BASE)/hawk/log
+	-chown -R root.haclient $(DESTDIR)$(WWW_BASE)/hawk/tmp
+	-chmod -R 2775 $(DESTDIR)$(WWW_BASE)/hawk/tmp
+	# install -D -m 0755 scripts/hawk.$(INIT_STYLE) $(DESTDIR)/etc/init.d/hawk
+	install -D -m 4754 tools/hawk_chkpwd $(DESTDIR)/usr/sbin/hawk_chkpwd
 	-chown root.haclient $(DESTDIR)/usr/sbin/hawk_chkpwd
-	install -D -m 4750 tools/hawk_invoke $(DESTDIR)/usr/sbin/hawk_invoke
+	install -D -m 4754 tools/hawk_invoke $(DESTDIR)/usr/sbin/hawk_invoke
 	-chown root.haclient $(DESTDIR)/usr/sbin/hawk_invoke
 	install -D -m 0755 tools/hawk_monitor $(DESTDIR)/usr/sbin/hawk_monitor
 	ln -s /usr/sbin/hawk_monitor $(DESTDIR)$(WWW_BASE)/hawk/public/monitor

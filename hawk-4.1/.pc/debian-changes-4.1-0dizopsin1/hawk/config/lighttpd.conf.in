@@ -6,7 +6,7 @@
 ## chroot example aswell.
 ##
 
-var.log_root    = "/var/log/hawk"
+#var.log_root    = "/var/log/lighttpd"
 #var.server_root = "@WWW_BASE@"
 var.state_dir   = "/var/run"
 #var.home_dir    = "/var/lib/lighttpd"
@@ -128,8 +128,8 @@ server.modules           = ( "mod_rewrite", "mod_access", "mod_accesslog", "mod_
 server.error-handler-404 = "/dispatch.fcgi"
 server.document-root     = "@WWW_BASE@/hawk/public/"
 
-server.errorlog          = "/var/log/hawk/lighttpd.error.log"
-accesslog.filename       = "/var/log/hawk/lighttpd.access.log"
+server.errorlog          = "@WWW_BASE@/hawk/log/lighttpd.error.log"
+accesslog.filename       = "@WWW_BASE@/hawk/log/lighttpd.access.log"
 
 # if this is in, it seems to break /rails/info/properties
 #url.rewrite              = ( "^/$" => "index.html", "^([^.]+)$" => "$1.html" )

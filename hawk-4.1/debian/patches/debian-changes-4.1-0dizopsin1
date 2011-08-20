@@ -34,6 +34,77 @@ Last-Update: <YYYY-MM-DD>
  
  # Override this to get a different init script (e.g. "redhat")
  INIT_STYLE = suse
+@@ -62,7 +62,7 @@ BINDIR = /usr/bin
+ SBINDIR = /usr/sbin
+ 
+ all: scripts/hawk.$(INIT_STYLE) hawk/config/lighttpd.conf tools/hawk_chkpwd tools/hawk_monitor tools/hawk_invoke
+-	(cd hawk; rake makemo; rake freeze:rails; rake freeze:gems)
++	(cd hawk; rake makemo)
+ 
+ %:: %.in
+ 	sed \
+@@ -100,8 +100,9 @@ clean:
+ 	rm -f tools/common.h
+ 
+ install:
+-	mkdir -p $(DESTDIR)$(WWW_BASE)/hawk/log
++	mkdir -p $(DESTDIR)/var/log/hawk
+ 	mkdir -p $(DESTDIR)$(WWW_BASE)/hawk/tmp
++	mkdir -p $(DESTDIR)$(WWW_BASE)/hawk/log
+ 	mkdir -p $(DESTDIR)$(WWW_BASE)/hawk/locale
+ 	mkdir -p $(DESTDIR)$(WWW_BASE)/hawk/tmp
+ 	mkdir -p $(DESTDIR)$(WWW_BASE)/hawk/tmp/cache
+@@ -111,14 +112,20 @@ install:
+ 	mkdir -p $(DESTDIR)$(WWW_BASE)/hawk/tmp/home
+ 	# Get rid of cruft from packed gems
+ 	-find hawk/vendor -name '*bak' -o -name '*~' -o -name '#*#' | xargs rm
++	install -D -m 0644 hawk/config/lighttpd.conf $(DESTDIR)/etc/hawk.conf
+ 	cp -a hawk/* $(DESTDIR)$(WWW_BASE)/hawk
+-	rm $(DESTDIR)$(WWW_BASE)/hawk/config/lighttpd.conf.in
+-	-chown -R hacluster.haclient $(DESTDIR)$(WWW_BASE)/hawk
+-	-chmod g+w $(DESTDIR)$(WWW_BASE)/hawk/tmp/home
+-	install -D -m 0755 scripts/hawk.$(INIT_STYLE) $(DESTDIR)/etc/init.d/hawk
+-	install -D -m 4750 tools/hawk_chkpwd $(DESTDIR)/usr/sbin/hawk_chkpwd
++	rm $(DESTDIR)$(WWW_BASE)/hawk/config/lighttpd.conf*
++	-chown -R root.root $(DESTDIR)$(WWW_BASE)/hawk
++	-chown -R root.haclient $(DESTDIR)/var/log/hawk
++	-chmod 2775 $(DESTDIR)/var/log/hawk
++	-chown -R root.haclient $(DESTDIR)$(WWW_BASE)/hawk/log
++	-chmod -R 2775 $(DESTDIR)$(WWW_BASE)/hawk/log
++	-chown -R root.haclient $(DESTDIR)$(WWW_BASE)/hawk/tmp
++	-chmod -R 2775 $(DESTDIR)$(WWW_BASE)/hawk/tmp
++	# install -D -m 0755 scripts/hawk.$(INIT_STYLE) $(DESTDIR)/etc/init.d/hawk
++	install -D -m 4754 tools/hawk_chkpwd $(DESTDIR)/usr/sbin/hawk_chkpwd
+ 	-chown root.haclient $(DESTDIR)/usr/sbin/hawk_chkpwd
+-	install -D -m 4750 tools/hawk_invoke $(DESTDIR)/usr/sbin/hawk_invoke
++	install -D -m 4754 tools/hawk_invoke $(DESTDIR)/usr/sbin/hawk_invoke
+ 	-chown root.haclient $(DESTDIR)/usr/sbin/hawk_invoke
+ 	install -D -m 0755 tools/hawk_monitor $(DESTDIR)/usr/sbin/hawk_monitor
+ 	ln -s /usr/sbin/hawk_monitor $(DESTDIR)$(WWW_BASE)/hawk/public/monitor
+--- hawk-4.1.orig/hawk/public/dispatch.fcgi
++++ hawk-4.1/hawk/public/dispatch.fcgi
+@@ -1,4 +1,4 @@
+-#!/usr/bin/ruby
++#!/usr/bin/ruby1.8
+ #
+ # You may specify the path to the FastCGI crash log (a log of unhandled
+ # exceptions which forced the FastCGI instance to exit, great for debugging)
+--- hawk-4.1.orig/hawk/public/dispatch.rb
++++ hawk-4.1/hawk/public/dispatch.rb
+@@ -1,4 +1,4 @@
+-#!/usr/bin/ruby
++#!/usr/bin/ruby1.8
+ 
+ require File.dirname(__FILE__) + "/../config/environment" unless defined?(RAILS_ROOT)
+ 
+--- hawk-4.1.orig/hawk/public/dispatch.cgi
++++ hawk-4.1/hawk/public/dispatch.cgi
+@@ -1,4 +1,4 @@
+-#!/usr/bin/ruby
++#!/usr/bin/ruby1.8
+ 
+ require File.dirname(__FILE__) + "/../config/environment" unless defined?(RAILS_ROOT)
+ 
 --- hawk-4.1.orig/hawk/config/environment.rb
 +++ hawk-4.1/hawk/config/environment.rb
 @@ -2,7 +2,7 @@
@@ -45,6 +116,99 @@ Last-Update: <YYYY-MM-DD>
  
  # Bootstrap the Rails environment, frameworks, and default configuration
  require File.join(File.dirname(__FILE__), 'boot')
+--- hawk-4.1.orig/hawk/config/lighttpd.conf.in
++++ hawk-4.1/hawk/config/lighttpd.conf.in
+@@ -6,7 +6,7 @@
+ ## chroot example aswell.
+ ##
+ 
+-#var.log_root    = "/var/log/lighttpd"
++var.log_root    = "/var/log/hawk"
+ #var.server_root = "@WWW_BASE@"
+ var.state_dir   = "/var/run"
+ #var.home_dir    = "/var/lib/lighttpd"
+@@ -128,8 +128,8 @@ server.modules           = ( "mod_rewrit
+ server.error-handler-404 = "/dispatch.fcgi"
+ server.document-root     = "@WWW_BASE@/hawk/public/"
+ 
+-server.errorlog          = "@WWW_BASE@/hawk/log/lighttpd.error.log"
+-accesslog.filename       = "@WWW_BASE@/hawk/log/lighttpd.access.log"
++server.errorlog          = "/var/log/hawk/lighttpd.error.log"
++accesslog.filename       = "/var/log/hawk/lighttpd.access.log"
+ 
+ # if this is in, it seems to break /rails/info/properties
+ #url.rewrite              = ( "^/$" => "index.html", "^([^.]+)$" => "$1.html" )
+--- hawk-4.1.orig/hawk/script/console
++++ hawk-4.1/hawk/script/console
+@@ -1,3 +1,3 @@
+-#!/usr/bin/env ruby
++#!/usr/bin/env ruby1.8
+ require File.expand_path('../../config/boot',  __FILE__)
+ require 'commands/console'
+--- hawk-4.1.orig/hawk/script/server
++++ hawk-4.1/hawk/script/server
+@@ -1,3 +1,3 @@
+-#!/usr/bin/env ruby
++#!/usr/bin/env ruby1.8
+ require File.expand_path('../../config/boot',  __FILE__)
+ require 'commands/server'
+--- hawk-4.1.orig/hawk/script/runner
++++ hawk-4.1/hawk/script/runner
+@@ -1,3 +1,3 @@
+-#!/usr/bin/env ruby
++#!/usr/bin/env ruby1.8
+ require File.expand_path('../../config/boot',  __FILE__)
+ require 'commands/runner'
+--- hawk-4.1.orig/hawk/script/dbconsole
++++ hawk-4.1/hawk/script/dbconsole
+@@ -1,3 +1,3 @@
+-#!/usr/bin/env ruby
++#!/usr/bin/env ruby1.8
+ require File.expand_path('../../config/boot',  __FILE__)
+ require 'commands/dbconsole'
+--- hawk-4.1.orig/hawk/script/about
++++ hawk-4.1/hawk/script/about
+@@ -1,4 +1,4 @@
+-#!/usr/bin/env ruby
++#!/usr/bin/env ruby1.8
+ require File.expand_path('../../config/boot',  __FILE__)
+ $LOAD_PATH.unshift "#{RAILTIES_PATH}/builtin/rails_info"
+ require 'commands/about'
+--- hawk-4.1.orig/hawk/script/destroy
++++ hawk-4.1/hawk/script/destroy
+@@ -1,3 +1,3 @@
+-#!/usr/bin/env ruby
++#!/usr/bin/env ruby1.8
+ require File.expand_path('../../config/boot',  __FILE__)
+ require 'commands/destroy'
+--- hawk-4.1.orig/hawk/script/generate
++++ hawk-4.1/hawk/script/generate
+@@ -1,3 +1,3 @@
+-#!/usr/bin/env ruby
++#!/usr/bin/env ruby1.8
+ require File.expand_path('../../config/boot',  __FILE__)
+ require 'commands/generate'
+--- hawk-4.1.orig/hawk/script/plugin
++++ hawk-4.1/hawk/script/plugin
+@@ -1,3 +1,3 @@
+-#!/usr/bin/env ruby
++#!/usr/bin/env ruby1.8
+ require File.expand_path('../../config/boot',  __FILE__)
+ require 'commands/plugin'
+--- hawk-4.1.orig/hawk/script/performance/profiler
++++ hawk-4.1/hawk/script/performance/profiler
+@@ -1,3 +1,3 @@
+-#!/usr/bin/env ruby
++#!/usr/bin/env ruby1.8
+ require File.expand_path('../../../config/boot',  __FILE__)
+ require 'commands/performance/profiler'
+--- hawk-4.1.orig/hawk/script/performance/benchmarker
++++ hawk-4.1/hawk/script/performance/benchmarker
+@@ -1,3 +1,3 @@
+-#!/usr/bin/env ruby
++#!/usr/bin/env ruby1.8
+ require File.expand_path('../../../config/boot',  __FILE__)
+ require 'commands/performance/benchmarker'
 --- /dev/null
 +++ hawk-4.1/scripts/hawk.suse
 @@ -0,0 +1,242 @@
