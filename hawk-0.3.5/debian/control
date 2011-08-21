@@ -1,0 +1,17 @@
+Source: hawk
+Section: admin
+Priority: extra
+Maintainer: Joerg Sauer <debian@dizopsin.net>
+Build-Depends: debhelper (>= 7.0.50~), ruby, rubygems, rake, libopenssl-ruby, libpam-dev, libglib2.0-dev, libxml2-dev, libltdl-dev, pacemaker-dev
+Standards-Version: 3.8.4
+Homepage: http://www.clusterlabs.org/wiki/Hawk
+
+Package: hawk
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, ruby, rubygems, libopenssl-ruby, pacemaker, lighttpd | httpd-cgi
+Description: HA Web Konsole (Hawk) is a web-based GUI for Pacemaker HA clusters.
+ Hawk (HA Web Konsole) is a web-based GUI for Pacemaker
+ HA clusters. This package contains "frozen" RubyGems
+ just like the upstream version. Runtime dependencies
+ are therefore minimal, but security updates to the
+ gems will NOT come from the Ubuntu repos.
