@@ -1,12 +1,3 @@
-hawk (4.1-0dizopsin2) stable; urgency=low
-
-  *  Package now uses Ruby libraries supplied by Debian
-  *  Some file/directory locations and permissions adapted according to policy
-     (many still wrong)
-  *  Should also install/work on Ubuntu 10.04
-
- --  <debian@dizopsin.net>  Sun, 21 Aug 2011 01:44:45 +0200
-
 hawk (4.1-0dizopsin1) stable; urgency=low
 
   * Initial release

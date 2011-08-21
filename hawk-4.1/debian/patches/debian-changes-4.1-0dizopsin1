@@ -39,7 +39,7 @@ Last-Update: <YYYY-MM-DD>
  
  all: scripts/hawk.$(INIT_STYLE) hawk/config/lighttpd.conf tools/hawk_chkpwd tools/hawk_monitor tools/hawk_invoke
 -	(cd hawk; rake makemo; rake freeze:rails; rake freeze:gems)
-+	(cd hawk; rake makemo)
++	(cd hawk; mkdir -p vendor/rails; ln -s /usr/share/rails-ruby1.8/railties vendor/rails/railties; rake makemo)
  
  %:: %.in
  	sed \
@@ -112,7 +112,7 @@ Last-Update: <YYYY-MM-DD>
  # Specifies gem version of Rails to use when vendor/rails is not present
  # (commented out to use the latest installed version of rails)
 -#RAILS_GEM_VERSION = '2.3.4' unless defined? RAILS_GEM_VERSION
-+RAILS_GEM_VERSION = '2.3.5' unless defined? RAILS_GEM_VERSION
++#RAILS_GEM_VERSION = '2.3.5' unless defined? RAILS_GEM_VERSION
  
  # Bootstrap the Rails environment, frameworks, and default configuration
  require File.join(File.dirname(__FILE__), 'boot')

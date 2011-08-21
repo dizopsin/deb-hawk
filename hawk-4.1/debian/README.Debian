@@ -1,7 +1,7 @@
 hawk for Debian
 ---------------
 
-This is a (very) unofficial packaging of Clusterlabs HAWK. I created this package because
+This is a (very) unofficial packaging of Clusterlabs Hawk. I created this package because
 I needed it. Basically, it comes with this guarantee:
 
 <http://www.codinghorror.com/blog/2007/03/the-works-on-my-machine-certification-program.html>
