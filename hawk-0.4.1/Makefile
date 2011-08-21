@@ -62,7 +62,7 @@ BINDIR = /usr/bin
 SBINDIR = /usr/sbin
 
 all: scripts/hawk.$(INIT_STYLE) hawk/config/lighttpd.conf tools/hawk_chkpwd tools/hawk_monitor tools/hawk_invoke
-	(cd hawk; mkdir -p vendor/rails; ln -s /usr/share/rails-ruby1.8/railties vendor/rails/railties; rake makemo)
+	(cd hawk; rake makemo; rake freeze:rails; rake freeze:gems)
 
 %:: %.in
 	sed \
@@ -129,6 +129,7 @@ install:
 	-chown root.haclient $(DESTDIR)/usr/sbin/hawk_invoke
 	install -D -m 0755 tools/hawk_monitor $(DESTDIR)/usr/sbin/hawk_monitor
 	ln -s /usr/sbin/hawk_monitor $(DESTDIR)$(WWW_BASE)/hawk/public/monitor
+	rm $(DESTDIR)$(WWW_BASE)/hawk/log/development.log
 
 # Make a tar.bz2 named for the most recent human-readable tag
 archive:

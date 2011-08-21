@@ -1,13 +1,14 @@
-hawk: wrong-file-owner-uid-or-gid usr/sbin/hawk_chkpwd 0/105
-hawk: wrong-file-owner-uid-or-gid usr/sbin/hawk_invoke 0/105
-hawk: wrong-file-owner-uid-or-gid usr/share/hawk/tmp/cache/ 0/105
-hawk: wrong-file-owner-uid-or-gid usr/share/hawk/tmp/home/ 0/105
-hawk: wrong-file-owner-uid-or-gid usr/share/hawk/tmp/pids/ 0/105
-hawk: wrong-file-owner-uid-or-gid usr/share/hawk/tmp/sessions/ 0/105
-hawk: wrong-file-owner-uid-or-gid usr/share/hawk/tmp/sockets/ 0/105
-hawk: wrong-file-owner-uid-or-gid var/log/hawk/ 0/105
-hawk: wrong-file-owner-uid-or-gid usr/share/hawk/log/ 0/105
-hawk: wrong-file-owner-uid-or-gid usr/share/hawk/tmp/ 0/105
+hawk: wrong-file-owner-uid-or-gid usr/sbin/hawk_chkpwd 0/106
+hawk: wrong-file-owner-uid-or-gid usr/share/hawk/tmp/cache/ 0/106
+hawk: wrong-file-owner-uid-or-gid usr/share/hawk/tmp/home/ 0/106
+hawk: wrong-file-owner-uid-or-gid usr/share/hawk/tmp/pids/ 0/106
+hawk: wrong-file-owner-uid-or-gid usr/share/hawk/tmp/sessions/ 0/106
+hawk: wrong-file-owner-uid-or-gid usr/share/hawk/tmp/sockets/ 0/106
+hawk: wrong-file-owner-uid-or-gid var/log/hawk/ 0/106
+hawk: wrong-file-owner-uid-or-gid usr/share/hawk/log/ 0/106
+hawk: wrong-file-owner-uid-or-gid usr/share/hawk/tmp/ 0/106
+hawk: wrong-file-owner-uid-or-gid usr/sbin/hawk_invoke 0/106
+hawk: wrong-file-owner-uid-or-gid usr/share/hawk/log/development.log 0/106
 hawk: non-standard-dir-perm usr/share/hawk/tmp/cache/ 2775 != 0755
 hawk: non-standard-dir-perm usr/share/hawk/tmp/home/ 2775 != 0755
 hawk: non-standard-dir-perm usr/share/hawk/tmp/pids/ 2775 != 0755
@@ -16,3 +17,9 @@ hawk: non-standard-dir-perm usr/share/hawk/tmp/sockets/ 2775 != 0755
 hawk: non-standard-dir-perm var/log/hawk/ 2775 != 0755
 hawk: non-standard-dir-perm usr/share/hawk/log/ 2775 != 0755
 hawk: non-standard-dir-perm usr/share/hawk/tmp/ 2775 != 0755
+hawk: script-not-executable
+hawk: executable-not-elf-or-script
+hawk: embedded-javascript-library
+hawk: extra-license-file 
+hawk: unusual-interpreter
+

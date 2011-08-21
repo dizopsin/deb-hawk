@@ -12,18 +12,5 @@
 %:
 	dh $@ 
 
-override_dh_link:
-	dh_link usr/lib/ruby/1.8/gettext.rb usr/share/hawk/vendor/gems/gettext-2.1.0/lib/gettext.rb \
-		usr/lib/ruby/1.8/gettext usr/share/hawk/vendor/gems/gettext-2.1.0/lib/gettext \
-		usr/lib/ruby/1.8/gettext_rails.rb usr/share/hawk/vendor/gems/gettext_rails-2.1.0/lib/gettext_rails.rb \
-		usr/lib/ruby/1.8/gettext_rails usr/share/hawk/vendor/gems/gettext_rails-2.1.0/lib/gettext_rails \
-		usr/lib/ruby/1.8/locale.rb usr/share/hawk/vendor/gems/locale-2.0.5/lib/locale.rb \
-                usr/lib/ruby/1.8/locale usr/share/hawk/vendor/gems/locale-2.0.5/lib/locale \
-		usr/lib/ruby/1.8/locale_rails.rb usr/share/hawk/vendor/gems/locale_rails-2.0.5/lib/locale_rails.rb \
-                usr/lib/ruby/1.8/locale_rails usr/share/hawk/vendor/gems/locale_rails-2.0.5/lib/locale_rails \
-		usr/lib/ruby/1.8/rack.rb usr/share/hawk/vendor/gems/rack-1.0.1/lib/rack.rb \
-                usr/lib/ruby/1.8/rack usr/share/hawk/vendor/gems/rack-1.0.1/lib/rack \
-		usr/share/rails-ruby1.8/railties usr/share/hawk/vendor/rails/railties
-
 override_dh_fixperms:
-	dh_fixperms -Xhawk
+	dh_fixperms -Xhawk/tmp -Xhawk/log -Xvar/log/hawk -Xusr/sbin/hawk
