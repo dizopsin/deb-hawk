@@ -12,9 +12,6 @@
 %:
 	dh $@ 
 
-override_dh_shlibdeps:
-	dh_shlibdeps -- -xpacemaker
-
 override_dh_link:
 	dh_link usr/lib/ruby/1.8/gettext.rb usr/share/hawk/vendor/gems/gettext-2.1.0/lib/gettext.rb \
 		usr/lib/ruby/1.8/gettext usr/share/hawk/vendor/gems/gettext-2.1.0/lib/gettext \

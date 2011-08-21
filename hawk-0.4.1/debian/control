@@ -10,7 +10,7 @@ Homepage: http://www.clusterlabs.org/wiki/Hawk
 
 Package: hawk
 Architecture: any
-Depends: ${shlibs:Depends}, ${misc:Depends}, ruby1.8, rails-ruby1.8, librack-ruby1.8, liblocale-ruby1.8, liblocale-rails-ruby1.8, libgettext-ruby1.8, libgettext-rails-ruby1.8, libopenssl-ruby1.8, pacemaker (>= 1.0.8+hg15494), lighttpd | httpd-cgi
+Depends: ${shlibs:Depends}, ${misc:Depends}, ruby1.8, rails-ruby1.8, librack-ruby1.8, liblocale-ruby1.8, liblocale-rails-ruby1.8, libgettext-ruby1.8, libgettext-rails-ruby1.8, libopenssl-ruby1.8, lighttpd | httpd-cgi
 Description: HA Web Konsole (Hawk) is a web-based GUI for Pacemaker HA clusters. 
  Hawk (HA Web Konsole) is a web-based GUI for Pacemaker
  HA clusters. So, why another management tool, given that
