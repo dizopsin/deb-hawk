@@ -1,0 +1,149 @@
+Description: Upstream changes introduced in version 0.4.1-0dizopsin1
+ This patch has been created by dpkg-source during the package build.
+ Here's the last changelog entry, hopefully it gives details on why
+ those changes were made:
+ .
+ hawk (0.4.1-0dizopsin1) stable; urgency=low
+ .
+   * Initial release
+ .
+ The person named in the Author field signed this changelog entry.
+Author: Joerg Sauer <debian@dizopsin.net>
+
+---
+The information above should follow the Patch Tagging Guidelines, please
+checkout http://dep.debian.net/deps/dep3/ to learn about the format. Here
+are templates for supplementary fields that you might want to add:
+
+Origin: <vendor|upstream|other>, <url of original patch>
+Bug: <url in upstream bugtracker>
+Bug-Debian: http://bugs.debian.org/<bugnumber>
+Forwarded: <no|not-needed|url proving that it has been forwarded>
+Reviewed-By: <name and email of someone who approved the patch>
+Last-Update: <YYYY-MM-DD>
+
+--- hawk-0.4.1.orig/Makefile
++++ hawk-0.4.1/Makefile
+@@ -62,7 +62,7 @@ BINDIR = /usr/bin
+ SBINDIR = /usr/sbin
+ 
+ all: scripts/hawk.$(INIT_STYLE) hawk/config/lighttpd.conf tools/hawk_chkpwd tools/hawk_monitor tools/hawk_invoke
+-	(cd hawk; mkdir -p vendor/rails; ln -s /usr/share/rails-ruby1.8/railties vendor/rails/railties; rake makemo)
++	(cd hawk; rake makemo; rake freeze:rails; rake freeze:gems)
+ 
+ %:: %.in
+ 	sed \
+@@ -129,6 +129,7 @@ install:
+ 	-chown root.haclient $(DESTDIR)/usr/sbin/hawk_invoke
+ 	install -D -m 0755 tools/hawk_monitor $(DESTDIR)/usr/sbin/hawk_monitor
+ 	ln -s /usr/sbin/hawk_monitor $(DESTDIR)$(WWW_BASE)/hawk/public/monitor
++	rm $(DESTDIR)$(WWW_BASE)/hawk/log/development.log
+ 
+ # Make a tar.bz2 named for the most recent human-readable tag
+ archive:
+--- hawk-0.4.1.orig/hawk/public/dispatch.fcgi
++++ hawk-0.4.1/hawk/public/dispatch.fcgi
+@@ -1,4 +1,4 @@
+-#!/usr/bin/ruby1.8
++#!/usr/bin/ruby
+ #
+ # You may specify the path to the FastCGI crash log (a log of unhandled
+ # exceptions which forced the FastCGI instance to exit, great for debugging)
+--- hawk-0.4.1.orig/hawk/public/dispatch.cgi
++++ hawk-0.4.1/hawk/public/dispatch.cgi
+@@ -1,4 +1,4 @@
+-#!/usr/bin/ruby1.8
++#!/usr/bin/ruby
+ 
+ require File.dirname(__FILE__) + "/../config/environment" unless defined?(RAILS_ROOT)
+ 
+--- hawk-0.4.1.orig/hawk/public/dispatch.rb
++++ hawk-0.4.1/hawk/public/dispatch.rb
+@@ -1,4 +1,4 @@
+-#!/usr/bin/ruby1.8
++#!/usr/bin/ruby
+ 
+ require File.dirname(__FILE__) + "/../config/environment" unless defined?(RAILS_ROOT)
+ 
+--- hawk-0.4.1.orig/hawk/config/environment.rb
++++ hawk-0.4.1/hawk/config/environment.rb
+@@ -2,7 +2,7 @@
+ 
+ # Specifies gem version of Rails to use when vendor/rails is not present
+ # (commented out to use the latest installed version of rails)
+-#RAILS_GEM_VERSION = '2.3.5' unless defined? RAILS_GEM_VERSION
++RAILS_GEM_VERSION = '2.3.5' unless defined? RAILS_GEM_VERSION
+ 
+ # Bootstrap the Rails environment, frameworks, and default configuration
+ require File.join(File.dirname(__FILE__), 'boot')
+--- hawk-0.4.1.orig/hawk/script/runner
++++ hawk-0.4.1/hawk/script/runner
+@@ -1,3 +1,3 @@
+-#!/usr/bin/env ruby1.8
++#!/usr/bin/env ruby
+ require File.expand_path('../../config/boot',  __FILE__)
+ require 'commands/runner'
+--- hawk-0.4.1.orig/hawk/script/plugin
++++ hawk-0.4.1/hawk/script/plugin
+@@ -1,3 +1,3 @@
+-#!/usr/bin/env ruby1.8
++#!/usr/bin/env ruby
+ require File.expand_path('../../config/boot',  __FILE__)
+ require 'commands/plugin'
+--- hawk-0.4.1.orig/hawk/script/server
++++ hawk-0.4.1/hawk/script/server
+@@ -1,3 +1,3 @@
+-#!/usr/bin/env ruby1.8
++#!/usr/bin/env ruby
+ require File.expand_path('../../config/boot',  __FILE__)
+ require 'commands/server'
+--- hawk-0.4.1.orig/hawk/script/about
++++ hawk-0.4.1/hawk/script/about
+@@ -1,4 +1,4 @@
+-#!/usr/bin/env ruby1.8
++#!/usr/bin/env ruby
+ require File.expand_path('../../config/boot',  __FILE__)
+ $LOAD_PATH.unshift "#{RAILTIES_PATH}/builtin/rails_info"
+ require 'commands/about'
+--- hawk-0.4.1.orig/hawk/script/destroy
++++ hawk-0.4.1/hawk/script/destroy
+@@ -1,3 +1,3 @@
+-#!/usr/bin/env ruby1.8
++#!/usr/bin/env ruby
+ require File.expand_path('../../config/boot',  __FILE__)
+ require 'commands/destroy'
+--- hawk-0.4.1.orig/hawk/script/dbconsole
++++ hawk-0.4.1/hawk/script/dbconsole
+@@ -1,3 +1,3 @@
+-#!/usr/bin/env ruby1.8
++#!/usr/bin/env ruby
+ require File.expand_path('../../config/boot',  __FILE__)
+ require 'commands/dbconsole'
+--- hawk-0.4.1.orig/hawk/script/generate
++++ hawk-0.4.1/hawk/script/generate
+@@ -1,3 +1,3 @@
+-#!/usr/bin/env ruby1.8
++#!/usr/bin/env ruby
+ require File.expand_path('../../config/boot',  __FILE__)
+ require 'commands/generate'
+--- hawk-0.4.1.orig/hawk/script/console
++++ hawk-0.4.1/hawk/script/console
+@@ -1,3 +1,3 @@
+-#!/usr/bin/env ruby1.8
++#!/usr/bin/env ruby
+ require File.expand_path('../../config/boot',  __FILE__)
+ require 'commands/console'
+--- hawk-0.4.1.orig/hawk/script/performance/profiler
++++ hawk-0.4.1/hawk/script/performance/profiler
+@@ -1,3 +1,3 @@
+-#!/usr/bin/env ruby1.8
++#!/usr/bin/env ruby
+ require File.expand_path('../../../config/boot',  __FILE__)
+ require 'commands/performance/profiler'
+--- hawk-0.4.1.orig/hawk/script/performance/benchmarker
++++ hawk-0.4.1/hawk/script/performance/benchmarker
+@@ -1,3 +1,3 @@
+-#!/usr/bin/env ruby1.8
++#!/usr/bin/env ruby
+ require File.expand_path('../../../config/boot',  __FILE__)
+ require 'commands/performance/benchmarker'

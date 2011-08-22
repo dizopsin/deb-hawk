@@ -1,0 +1,30 @@
+hawk for Debian
+---------------
+
+This is the Ubuntu 10.04 version of a package for Hawk 0.4.1 I am working on for Debian.
+The Debian packages uses the Debian-supplied Ruby libs. The Ubuntu version uses
+"frozen" RubyGems, just like upstream. The Ubuntu version will therefore not
+build from source without manual installation of the correct gems.
+
+
+
+
+Manual installation of Ruby gems (in that order, with these exact commands, as root):
+
+gem install --no-rdoc --no-ri rake -v 0.8.7
+gem install --no-rdoc --no-ri rails -v 2.3.5
+gem install --no-rdoc --no-ri activesupport -v 2.3.5
+gem install --no-rdoc --no-ri gettext_activerecord -v 2.1.0
+gem uninstall activemodel
+gem uninstall activesupport -v 3.0.10
+gem install --no-rdoc --no-ri locale_rails
+gem install --no-rdoc --no-ri gettext_rails -v 2.1.0 --ignore-dependencies
+
+
+
+
+ -- Joerg Sauer <debian@dizopsin.net>  Thu, 21 Aug 2011 18:00:00 +0200
+
+
+
+
