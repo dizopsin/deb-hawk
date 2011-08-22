@@ -1,12 +1,15 @@
 hawk for Debian
 ---------------
 
-This is the Ubuntu 10.04 version of a package for Hawk 0.4.1 I am working on for Debian.
-The Debian packages uses the Debian-supplied Ruby libs. The Ubuntu version uses
-"frozen" RubyGems, just like upstream. The Ubuntu version will therefore not
-build from source without manual installation of the correct gems.
+This is an unoffical Debian Squeeze source package for Hawk 0.4.1 (HA Web Konsole).
+Just like in the upstream package, various Ruby libraries including Rails are
+"frozen" into the application directory instead of using the libraries
+provided by the system. This has both obvious advantages and problems. It
+certainly is not compliant with Debian policy.
 
-
+The Makefile tries to make sure that the gems are all installed before the
+package is build. Depending on the state and composition of an already existing
+RubyGems repository this may or may not work.
 
 
 Manual installation of Ruby gems (in that order, with these exact commands, as root):

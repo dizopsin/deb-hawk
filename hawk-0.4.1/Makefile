@@ -61,7 +61,9 @@ LIBDIR = /usr/lib
 BINDIR = /usr/bin
 SBINDIR = /usr/sbin
 
-all: scripts/hawk.$(INIT_STYLE) hawk/config/lighttpd.conf tools/hawk_chkpwd tools/hawk_monitor tools/hawk_invoke
+GEM_HOME := /tmp/rubygems.tmp
+
+all: scripts/hawk.$(INIT_STYLE) hawk/config/lighttpd.conf tools/hawk_chkpwd tools/hawk_monitor tools/hawk_invoke gems
 	(cd hawk; rake makemo; rake freeze:rails; rake freeze:gems)
 
 %:: %.in
@@ -87,6 +89,16 @@ tools/hawk_monitor: tools/hawk_monitor.c
 tools/hawk_invoke: tools/hawk_invoke.c tools/common.h
 	gcc -o $@ $< 
 
+gems:
+	gem install --no-rdoc --no-ri rake -v 0.8.7
+	gem install --no-rdoc --no-ri rails -v 2.3.5
+	gem install --no-rdoc --no-ri activesupport -v 2.3.5
+	gem install --no-rdoc --no-ri gettext_activerecord -v 2.1.0
+	gem uninstall activemodel
+	echo Y | gem uninstall activesupport -v 3.0.10
+	gem install --no-rdoc --no-ri locale_rails
+	gem install --no-rdoc --no-ri gettext_rails -v 2.1.0 --ignore-dependencies
+
 clean:
 	rm -rf hawk/locale
 	rm -rf hawk/vendor
@@ -98,6 +110,7 @@ clean:
 	rm -f tools/hawk_monitor
 	rm -f tools/hawk_invoke
 	rm -f tools/common.h
+	rm -rf /tmp/rubygems.tmp
 
 install:
 	mkdir -p $(DESTDIR)/var/log/hawk

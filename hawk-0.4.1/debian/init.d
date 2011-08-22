@@ -36,7 +36,7 @@
 
 # PATH should only include /usr/* if it runs after the mountnfs.sh script
 PATH=/sbin:/usr/sbin:/bin:/usr/bin
-DESC=hawk
+DESC="HA Web Konsole"
 NAME=hawk
 DAEMON=/usr/sbin/lighttpd
 PROCNAME=lighttpd
